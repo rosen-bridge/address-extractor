@@ -22,7 +22,7 @@ git push -uf origin master
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://git.ergopool.io/rosen-bridge/scanner/observation-extractor/-/settings/integrations)
+- [ ] [Set up project integrations](https://git.ergopool.io/rosen-bridge/scanner/address-extractor/-/settings/integrations)
 
 ## Collaborate with your team
 

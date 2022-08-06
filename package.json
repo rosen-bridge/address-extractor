@@ -1,5 +1,5 @@
 {
-  "name": "rosen-commitment-extractor",
+  "name": "@rosen-bridge/address-extractor",
   "version": "0.1.0",
   "description": "",
   "main": "dist/lib/index.js",
