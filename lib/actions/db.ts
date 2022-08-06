@@ -52,6 +52,12 @@ export class BoxEntityAction {
         return success;
     }
 
+    /**
+     * delete boxes in specific block from database. if box spend in this block marked as unspent
+     * and if created in this block remove it from database
+     * @param block
+     * @param extractor
+     */
     deleteBlockBoxes = async (block: string, extractor: string) => {
         await this.datasource.createQueryBuilder()
             .delete()

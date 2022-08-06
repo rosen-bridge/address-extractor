@@ -1,4 +1,4 @@
-# address-extractor
+# Address Extractor
 
 
 
@@ -15,7 +15,7 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://git.ergopool.io/rosen-bridge/scanner/observation-extractor.git
+git remote add origin https://git.ergopool.io/rosen-bridge/scanner/address-extractor.git
 git branch -M master
 git push -uf origin master
 ```
