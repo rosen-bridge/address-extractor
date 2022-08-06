@@ -1,6 +1,6 @@
 {
   "name": "@rosen-bridge/address-extractor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,10 +11,11 @@
     "lint": "eslint --fix .",
     "test": "rimraf sqlite; tsc --noEmit && npm run lint && jest --detectOpenHandles ; rimraf sqlite",
     "coverage": "c8 npm run test",
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "release": "npm run test && npm run build && npm publish --access public"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Vorujack",
+  "license": "GPL-3.0",
   "dependencies": {
     "@rosen-bridge/scanner": "^0.1.5",
     "blakejs": "^1.2.1",
