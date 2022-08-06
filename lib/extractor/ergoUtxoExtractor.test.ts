@@ -52,8 +52,6 @@ describe('extractorErgo', () => {
             expect(await repository.count()).toBe(2)
             const boxIds = (await repository.find()).map(item => item.boxId).sort()
             expect(boxIds).toEqual(["03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542", "46220fcb528daed856ce06f4225bd32fced8eac053922b77bee3e8e776252e28"])
-            // expect(boxIds[0]).toBe("03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542")
-            // expect(boxIds[1]).toBe("46220fcb528daed856ce06f4225bd32fced8eac053922b77bee3e8e776252e28")
         })
 
         /**
