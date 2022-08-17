@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import * as ergoLib from 'ergo-lib-wasm-nodejs';
 import { Buffer } from "buffer";
 import { BoxEntityAction } from "../actions/db";
-import { AbstractExtractor } from "@rosen-bridge/scanner/dist/interfaces";
+import { AbstractExtractor } from "@rosen-bridge/scanner";
 import ExtractedBox from "../interfaces/ExtractedBox";
 import { BlockEntity } from "@rosen-bridge/scanner";
 
@@ -57,7 +57,7 @@ export class ErgoUTXOExtractor implements AbstractExtractor<ergoLib.Transaction>
                         }
                         boxes.push({
                             boxId: output.box_id().to_str(),
-                            address: ergoLib.Address.recreate_from_ergo_tree(output.ergo_tree()).to_base58(this.networkType),
+                            address: ergoLib.Address.recreate_from_ergo_tree(ergoLib.ErgoTree.from_base16_bytes(output.ergo_tree().to_base16_bytes())).to_base58(this.networkType),
                             serialized: Buffer.from(output.sigma_serialize_bytes()).toString("hex")
                         })
                     }
