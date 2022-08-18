@@ -20,7 +20,8 @@ export class BoxEntityAction {
     storeBox = async (boxes: Array<ExtractedBox>, spendBoxes: Array<string>, block: BlockEntity, extractor: string) => {
         const boxIds = boxes.map(item => item.boxId)
         const dbBoxes = await this.datasource.getRepository(BoxEntity).findBy({
-            boxId: In(boxIds)
+            boxId: In(boxIds),
+            extractor: extractor
         })
         let success = true;
         const queryRunner = this.datasource.createQueryRunner();
@@ -33,6 +34,7 @@ export class BoxEntityAction {
                     boxId: box.boxId,
                     createBlock: block.hash,
                     creationHeight: block.height,
+                    spendBlock: undefined,
                     serialized: box.serialized,
                     extractor: extractor
                 }

@@ -4,8 +4,8 @@ import ExtractedBox from "../interfaces/ExtractedBox";
 import { BoxEntity } from "../entities/boxEntity";
 
 
-describe("ObservationEntityAction", () => {
-    describe("storeObservation", () => {
+describe("BoxEntityAction", () => {
+    describe("storeBlockBoxes", () => {
 
         /**
          * store a box and check all stored information to be correct
@@ -13,7 +13,7 @@ describe("ObservationEntityAction", () => {
          * Scenario: store one box
          * Expected: height, blockhash and box information must be correct
          */
-        it("should checks observations saved successfully", async () => {
+        it("should checks boxes saved successfully", async () => {
             const dataSource = await loadDataBase("db1");
             const action = new BoxEntityAction(dataSource);
             const box: ExtractedBox = {
@@ -29,6 +29,76 @@ describe("ObservationEntityAction", () => {
             expect(stored.address).toBe("address")
             expect(stored.boxId).toBe("boxid")
             expect(stored.serialized).toBe("serialized")
+            expect(stored.creationHeight).toBe(100)
+            expect(stored.createBlock).toBe("block1")
+        })
+
+        /**
+         * store an already stored box must update its content in database
+         * Dependency: a stored box in database
+         * Scenario: try to store above box into database
+         * Expected: height, blockhash and box information must be correct
+         */
+        it("should update saved boxes successfully", async () => {
+            const dataSource = await loadDataBase("db-update");
+            const action = new BoxEntityAction(dataSource);
+            await dataSource.getRepository(BoxEntity).insert({
+                boxId: "boxid",
+                serialized: "serialized-old",
+                address: "address-old",
+                spendBlock: "old spend",
+                extractor: "extractor",
+                createBlock: "create-block",
+                creationHeight: 100,
+            })
+            const box: ExtractedBox = {
+                boxId: "boxid",
+                serialized: "serialized-new",
+                address: "address-new"
+            }
+            const block = generateBlockEntity(dataSource, "block1", "block0", 100)
+            await action.storeBox([box], [], block, "extractor")
+            const repository = dataSource.getRepository(BoxEntity)
+            expect(await repository.count()).toBe(1)
+            const stored = (await repository.find())[0]
+            expect(stored.address).toBe("address-new")
+            expect(stored.boxId).toBe("boxid")
+            expect(stored.serialized).toBe("serialized-new")
+            expect(stored.creationHeight).toBe(100)
+            expect(stored.createBlock).toBe("block1")
+        })
+
+        /**
+         * duplicate insert one box if extractor is different
+         * Dependency: a stored box in database
+         * Scenario: try to store above box with different extractor into database
+         * Expected: new instance of box must inserted into database and height, blockhash and box information must be correct
+         */
+        it("should update saved boxes successfully", async () => {
+            const dataSource = await loadDataBase("db-update");
+            const action = new BoxEntityAction(dataSource);
+            await dataSource.getRepository(BoxEntity).insert({
+                boxId: "boxid",
+                serialized: "serialized-old",
+                address: "address-old",
+                spendBlock: "old spend",
+                extractor: "extractor1",
+                createBlock: "create-block",
+                creationHeight: 100,
+            })
+            const box: ExtractedBox = {
+                boxId: "boxid",
+                serialized: "serialized-new",
+                address: "address-new"
+            }
+            const block = generateBlockEntity(dataSource, "block1", "block0", 100)
+            await action.storeBox([box], [], block, "extractor")
+            const repository = dataSource.getRepository(BoxEntity)
+            expect(await repository.count()).toBe(2)
+            const stored = (await repository.findBy({extractor: "extractor"}))[0]
+            expect(stored.address).toBe("address-new")
+            expect(stored.boxId).toBe("boxid")
+            expect(stored.serialized).toBe("serialized-new")
             expect(stored.creationHeight).toBe(100)
             expect(stored.createBlock).toBe("block1")
         })
