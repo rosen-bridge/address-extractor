@@ -24,13 +24,13 @@ describe("BoxEntityAction", () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await action.storeBox([box], [], block, "extractor")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const stored = (await repository.find())[0]
-            expect(stored.address).toBe("address")
-            expect(stored.boxId).toBe("boxid")
-            expect(stored.serialized).toBe("serialized")
-            expect(stored.creationHeight).toBe(100)
-            expect(stored.createBlock).toBe("block1")
+            expect(stored.address).toEqual("address")
+            expect(stored.boxId).toEqual("boxid")
+            expect(stored.serialized).toEqual("serialized")
+            expect(stored.creationHeight).toEqual(100)
+            expect(stored.createBlock).toEqual("block1")
         })
 
         /**
@@ -59,13 +59,13 @@ describe("BoxEntityAction", () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await action.storeBox([box], [], block, "extractor")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const stored = (await repository.find())[0]
-            expect(stored.address).toBe("address-new")
-            expect(stored.boxId).toBe("boxid")
-            expect(stored.serialized).toBe("serialized-new")
-            expect(stored.creationHeight).toBe(100)
-            expect(stored.createBlock).toBe("block1")
+            expect(stored.address).toEqual("address-new")
+            expect(stored.boxId).toEqual("boxid")
+            expect(stored.serialized).toEqual("serialized-new")
+            expect(stored.creationHeight).toEqual(100)
+            expect(stored.createBlock).toEqual("block1")
         })
 
         /**
@@ -94,13 +94,13 @@ describe("BoxEntityAction", () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await action.storeBox([box], [], block, "extractor")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(2)
+            expect(await repository.count()).toEqual(2)
             const stored = (await repository.findBy({extractor: "extractor"}))[0]
-            expect(stored.address).toBe("address-new")
-            expect(stored.boxId).toBe("boxid")
-            expect(stored.serialized).toBe("serialized-new")
-            expect(stored.creationHeight).toBe(100)
-            expect(stored.createBlock).toBe("block1")
+            expect(stored.address).toEqual("address-new")
+            expect(stored.boxId).toEqual("boxid")
+            expect(stored.serialized).toEqual("serialized-new")
+            expect(stored.creationHeight).toEqual(100)
+            expect(stored.createBlock).toEqual("block1")
         })
 
         /**
@@ -120,10 +120,10 @@ describe("BoxEntityAction", () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await action.storeBox([box], [], block, "extractor1")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             await action.storeBox([], ["boxid"], block, "extractor1")
             const stored = (await repository.find())[0]
-            expect(stored.spendBlock).toBe("block1")
+            expect(stored.spendBlock).toEqual("block1")
         })
 
         /**
@@ -143,10 +143,10 @@ describe("BoxEntityAction", () => {
             const action = new BoxEntityAction(dataSource);
             await action.storeBox([box], [], block, "extractor1")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             await action.storeBox([], ["boxid"], block, "extractor2")
             const stored = (await repository.find())[0]
-            expect(stored.spendBlock).toBe(null)
+            expect(stored.spendBlock).toBeNull()
         })
 
         /**
@@ -166,14 +166,14 @@ describe("BoxEntityAction", () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await action.storeBox([box], ["boxid"], block, "extractor")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const stored = (await repository.find())[0]
-            expect(stored.creationHeight).toBe(100)
-            expect(stored.spendBlock).toBe("block1")
-            expect(stored.address).toBe("address")
-            expect(stored.boxId).toBe("boxid")
-            expect(stored.serialized).toBe("serialized")
-            expect(stored.createBlock).toBe("block1")
+            expect(stored.creationHeight).toEqual(100)
+            expect(stored.spendBlock).toEqual("block1")
+            expect(stored.address).toEqual("address")
+            expect(stored.boxId).toEqual("boxid")
+            expect(stored.serialized).toEqual("serialized")
+            expect(stored.createBlock).toEqual("block1")
         })
     })
 
@@ -196,9 +196,9 @@ describe("BoxEntityAction", () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await action.storeBox([box], [], block, "extractor1")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             await action.deleteBlockBoxes(block.hash, "extractor1")
-            expect(await repository.count()).toBe(0)
+            expect(await repository.count()).toEqual(0)
         })
 
         /**
@@ -222,11 +222,11 @@ describe("BoxEntityAction", () => {
             await action.storeBox([box], [], block1, "extractor1")
             await action.storeBox([], ["boxid"], block2, "extractor1")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity1 = (await repository.find())[0]
             expect(boxEntity1.spendBlock).not.toBeNull()
             await action.deleteBlockBoxes(block2.hash, "extractor1")
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity2 = (await repository.find())[0]
             expect(boxEntity2.spendBlock).toBeNull()
         })
@@ -252,11 +252,11 @@ describe("BoxEntityAction", () => {
             await action.storeBox([box], [], block1, "extractor1")
             await action.storeBox([], ["boxid"], block2, "extractor1")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity1 = (await repository.find())[0]
             expect(boxEntity1.spendBlock).not.toBeNull()
             await action.deleteBlockBoxes(block2.hash, "extractor2")
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity2 = (await repository.find())[0]
             expect(boxEntity2.spendBlock).not.toBeNull()
         })
@@ -279,11 +279,11 @@ describe("BoxEntityAction", () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await action.storeBox([box], ["boxid"], block, "extractor1")
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity1 = (await repository.find())[0]
             expect(boxEntity1.spendBlock).not.toBeNull()
             await action.deleteBlockBoxes(block.hash, "extractor1")
-            expect(await repository.count()).toBe(0)
+            expect(await repository.count()).toEqual(0)
         })
 
     })

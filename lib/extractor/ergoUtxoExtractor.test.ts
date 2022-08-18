@@ -24,9 +24,9 @@ describe('extractorErgo', () => {
             const block = generateBlockEntity(dataSource, "block1", "block0", 100)
             await extractor.processTransactions([tx1], block)
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity = (await repository.find())[0]
-            expect(boxEntity.boxId).toBe("03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542")
+            expect(boxEntity.boxId).toEqual("03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542")
         })
 
         /**
@@ -49,7 +49,7 @@ describe('extractorErgo', () => {
             );
             await extractor.processTransactions([tx1], block)
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(2)
+            expect(await repository.count()).toEqual(2)
             const boxIds = (await repository.find()).map(item => item.boxId).sort()
             expect(boxIds).toEqual(["03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542", "46220fcb528daed856ce06f4225bd32fced8eac053922b77bee3e8e776252e28"])
         })
@@ -75,9 +75,9 @@ describe('extractorErgo', () => {
             );
             await extractor.processTransactions([tx1], block)
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity = (await repository.find())[0]
-            expect(boxEntity.boxId).toBe("03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542")
+            expect(boxEntity.boxId).toEqual("03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542")
         })
 
         /**
@@ -101,9 +101,9 @@ describe('extractorErgo', () => {
             );
             await extractor.processTransactions([tx1], block)
             const repository = dataSource.getRepository(BoxEntity)
-            expect(await repository.count()).toBe(1)
+            expect(await repository.count()).toEqual(1)
             const boxEntity = (await repository.find())[0]
-            expect(boxEntity.boxId).toBe("03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542")
+            expect(boxEntity.boxId).toEqual("03a6b9d06c50e8895a1e1c02365d1e2e4becd71efe188b341ca84b228ee26542")
         })
     })
 })
