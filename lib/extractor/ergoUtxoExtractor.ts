@@ -58,7 +58,7 @@ export class ErgoUTXOExtractor implements AbstractExtractor<ergoLib.Transaction>
                         boxes.push({
                             boxId: output.box_id().to_str(),
                             address: ergoLib.Address.recreate_from_ergo_tree(ergoLib.ErgoTree.from_base16_bytes(output.ergo_tree().to_base16_bytes())).to_base58(this.networkType),
-                            serialized: Buffer.from(output.sigma_serialize_bytes()).toString("hex")
+                            serialized: Buffer.from(output.sigma_serialize_bytes()).toString("base64")
                         })
                     }
                     for(let index2 = 0; index2 < transaction.inputs().len(); index2 ++){
