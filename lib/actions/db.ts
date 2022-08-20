@@ -52,7 +52,7 @@ export class BoxEntityAction {
             await this.datasource.getRepository(BoxEntity).createQueryBuilder()
                 .update()
                 .set({spendBlock: block.hash})
-                .where("boxId IN (:boxes) AND extractor = :extractor", {
+                .where("boxId IN (:...boxes) AND extractor = :extractor", {
                     boxes: spendBoxes,
                     extractor: extractor
                 }).execute()
