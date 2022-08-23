@@ -1,5 +1,5 @@
 import { BoxEntity } from "../entities/boxEntity";
-import { DataSource } from "typeorm";
+import { DataSource, In } from "typeorm";
 import ExtractedBox from "../interfaces/ExtractedBox";
 import { BlockEntity } from "@rosen-bridge/scanner";
 
@@ -18,26 +18,41 @@ export class BoxEntityAction {
      * @param extractor
      */
     storeBox = async (boxes: Array<ExtractedBox>, spendBoxes: Array<string>, block: BlockEntity, extractor: string) => {
-        const boxEntities = boxes.map((box) => {
-            const row = new BoxEntity();
-            row.address = box.address;
-            row.boxId = box.boxId;
-            row.createBlock = block.hash
-            row.creationHeight = block.height
-            row.serialized = box.serialized
-            row.extractor = extractor
-            return row;
-        });
+        const boxIds = boxes.map(item => item.boxId)
+        const dbBoxes = await this.datasource.getRepository(BoxEntity).findBy({
+            boxId: In(boxIds),
+            extractor: extractor
+        })
         let success = true;
         const queryRunner = this.datasource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            await queryRunner.manager.save(boxEntities);
+            for(const box of boxes){
+                const entity = {
+                    address: box.address,
+                    boxId: box.boxId,
+                    createBlock: block.hash,
+                    creationHeight: block.height,
+                    spendBlock: undefined,
+                    serialized: box.serialized,
+                    extractor: extractor
+                }
+                const dbBox = dbBoxes.filter(item => item.boxId === box.boxId)
+                if(dbBox.length > 0){
+                    await queryRunner.manager.getRepository(BoxEntity).createQueryBuilder()
+                        .update()
+                        .set(entity)
+                        .where({id: dbBox[0].id})
+                        .execute()
+                }else{
+                    await queryRunner.manager.getRepository(BoxEntity).insert(entity)
+                }
+            }
             await this.datasource.getRepository(BoxEntity).createQueryBuilder()
                 .update()
                 .set({spendBlock: block.hash})
-                .where("boxId IN (:boxes) AND extractor = :extractor", {
+                .where("boxId IN (:...boxes) AND extractor = :extractor", {
                     boxes: spendBoxes,
                     extractor: extractor
                 }).execute()
