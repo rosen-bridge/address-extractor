@@ -17,7 +17,7 @@ Data extractors are modules that are integrated within a scanner. They drive the
 
 
 ## Related Projects
-This module is used within the [Scanner](TBD) project. The address scanner is currently used in the [Watcher](TBD) service to drive the watcher fee boxes and WID box (The watcher box with a specific WID token that is used for watcher authentication).
+This module is used within the [Scanner](https://github.com/rosen-bridge/scanner) project. The address scanner is currently used in the [Watcher](https://github.com/rosen-bridge/watcher) service to drive the watcher fee boxes and WID box (The watcher box with a specific WID token that is used for watcher authentication).
  
 ## How to Use the Address Extractor
 ### Install
@@ -34,7 +34,7 @@ npm run build
 ```
 
 ### Usage
-At the first step, you need to create a scanner instance; follow the steps [here](TBD) to create a running instance of scanner. Then you need to instantiate your address extractor and register it to your scanner:
+At the first step, you need to create a scanner instance; follow the steps [here](https://github.com/rosen-bridge/scanner) to create a running instance of scanner. Then you need to instantiate your address extractor and register it to your scanner:
 ```javascript
 const addressExtractor = new ErgoUTXOExtractor(
     dataSource, 
