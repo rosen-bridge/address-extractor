@@ -21,7 +21,7 @@ This module is used within the [Scanner](https://github.com/rosen-bridge/scanner
  
 ## How to Use the Address Extractor
 ### Install
-This project is written in node-js using Esnext module and typeorm database. This project is not dependent and is used as the scanner module. You can easily install it using npm with the command:
+This project is written in node-js using Esnext module and typeorm database. Extractors are not standalone projects and should be used as scanner modules. You can easily install it using npm with the command:
 
 ```shell
 npm install @rosen-bridge/address-extractor
